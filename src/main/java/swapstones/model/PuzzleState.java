@@ -102,6 +102,19 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PuzzleState that = (PuzzleState) o;
+        return Objects.deepEquals(board, that.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(board);
+    }
+
+    @Override
     public TwoPhaseMoveState<Integer> clone() {
         return null;
     }
