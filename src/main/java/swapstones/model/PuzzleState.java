@@ -118,4 +118,8 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
     public TwoPhaseMoveState<Integer> clone() {
         return null;
     }
+
+    public Stone getStone(int col) {
+        return board[col].get();
+    }
 }
