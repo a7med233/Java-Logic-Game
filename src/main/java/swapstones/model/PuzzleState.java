@@ -50,7 +50,7 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
 
     @Override
     public boolean isSolved() {
-        for (var i = 0; i < 11; i++) {
+        for (var i = 0; i < BOARD_SIZE - 5; i++) {
             if ((board[i].get() == Stone.TAIL && board[i + 1].get() == Stone.TAIL && board[i + 2].get() == Stone.TAIL)
                     && (board[i + 3].get() == Stone.HEAD && board[i + 4].get() == Stone.HEAD && board[i + 5].get() == Stone.HEAD)) {
                 return true;
@@ -73,7 +73,7 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
         if (!isLegalMove(directionTwoPhaseMove)) {
             throw new IllegalArgumentException("Illegal move: " + directionTwoPhaseMove);
         }
-        Stone source[] = new Stone[2];
+        Stone[] source = new Stone[2];
         source[0] = board[directionTwoPhaseMove.from()].get();
         source[1] = board[directionTwoPhaseMove.from() + 1].get();
         board[directionTwoPhaseMove.from()].set(Stone.EMPTY);
@@ -106,12 +106,12 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PuzzleState that = (PuzzleState) o;
-        return Objects.deepEquals(board, that.board);
+        return Arrays.equals(getBoard(), that.getBoard());
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(board);
+        return Arrays.hashCode(getBoard());
     }
 
     @Override
@@ -121,5 +121,12 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
 
     public Stone getStone(int col) {
         return board[col].get();
+    }
+    private Stone[] getBoard() {
+        Stone[] boardState = new Stone[board.length];
+        for (int i = 0; i < board.length; i++) {
+            boardState[i] = board[i].get();
+        }
+        return boardState;
     }
 }

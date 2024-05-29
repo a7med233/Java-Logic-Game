@@ -5,3 +5,6 @@
 .square:hover {
     -fx-background-color: yellow;
 }
+.square:hover:pressed{
+    -fx-background-color: #1a98ff;
+}

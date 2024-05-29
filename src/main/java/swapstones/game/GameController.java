@@ -71,7 +71,6 @@ public class GameController {
 
             makeMoveIfLegal(fromChosen, toChosen);
 
-            // Reset the selection
             fromChosen = -1;
             toChosen = -1;
         }
