@@ -2,8 +2,6 @@ package swapstones.model;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import puzzle.TwoPhaseMoveState;
-import puzzle.solver.BreadthFirstSearch;
-
 import java.util.*;
 
 public class PuzzleState implements TwoPhaseMoveState<Integer> {
