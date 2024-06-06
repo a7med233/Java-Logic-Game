@@ -150,7 +150,7 @@ public class GameController {
 
     private void updateUI() {
         for (var j = 0; j < board.getColumnCount(); j++) {
-            updateSquare(0, j); // Assuming a single row
+            updateSquare(0, j);
         }
     }
 

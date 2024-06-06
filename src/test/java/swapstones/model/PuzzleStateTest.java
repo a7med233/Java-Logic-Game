@@ -80,12 +80,10 @@ public class PuzzleStateTest {
         puzzleState.makeMove(move3);
         puzzleState.makeMove(move4);
         puzzleState.makeMove(move5);
-        assertFalse(puzzleState.isSolved(), "Puzzle not solved.");
+        assertFalse(puzzleState.isSolved(), "Should not be solved.");
         puzzleState.makeMove(move6);
         assertTrue(puzzleState.isSolved(), "Puzzle should be solved.");
-
     }
-
 
 
     @Test
@@ -102,10 +100,10 @@ public class PuzzleStateTest {
         assertEquals(puzzleState.hashCode(), puzzleState2.hashCode(), "Hash codes should match.");
     }
 
-//    @Test
-//    public void testClone() {
-//        PuzzleState clonedState = (PuzzleState) puzzleState.clone();
-//        assertEquals(puzzleState, clonedState, "Cloned puzzle state should be equal to the original.");
-//        assertNotSame(puzzleState, clonedState, "Cloned puzzle state should not be the same instance as the original.");
-//    }
+    @Test
+    public void testClone() {
+        PuzzleState clonedState = (PuzzleState) puzzleState.clone();
+        assertEquals(puzzleState, clonedState, "Cloned puzzle state should be equal to the original.");
+        assertNotSame(puzzleState, clonedState, "Cloned puzzle state should not be the same instance as the original.");
+    }
 }
