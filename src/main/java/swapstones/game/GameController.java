@@ -2,6 +2,9 @@ package swapstones.game;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import puzzle.TwoPhaseMoveState;
@@ -24,15 +27,25 @@ public class GameController {
     @FXML
     private TextField numberOfMovesField;
 
+    @FXML
+    private Label stopwatchLabel;
+
+    @FXML
+    private Button resetButton;
+
+    private final Stopwatch stopwatch = new Stopwatch();
+
     private PuzzleState model = new PuzzleState();
+
     private final IntegerProperty numberOfMoves = new SimpleIntegerProperty(0);
+
+    private int fromChosen = -1;
+
+    private int toChosen = -1;
 
     private void bindNumberOfMoves() {
         numberOfMovesField.textProperty().bind(numberOfMoves.asString());
     }
-
-    private int fromChosen = -1;
-    private int toChosen = -1;
 
     @FXML
     private void initialize() {
@@ -42,7 +55,8 @@ public class GameController {
         }
         registerKeyEventHandler();
         bindNumberOfMoves();
-
+        stopwatchLabel.textProperty().bind(stopwatch.hhmmssProperty());
+        stopwatch.start();
     }
 
     private StackPane createSquare(int col) {
@@ -99,6 +113,7 @@ public class GameController {
         model = new PuzzleState();
         initialize();
     }
+
     @FXML
     private void handleKeyPress(KeyEvent keyEvent) {
         var restartKeyCombination = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
@@ -110,6 +125,12 @@ public class GameController {
             Logger.debug("Exiting");
             Platform.exit();
         }
+    }
+
+    @FXML
+    private void handleResetButton(ActionEvent event) {
+        stopwatch.reset();
+        restartGame();
     }
 
     private void makeMoveIfLegal(int fromIndex, int toIndex) {
@@ -126,8 +147,6 @@ public class GameController {
             Logger.warn("Attempted illegal move: {}", move);
         }
     }
-
-
 
     private void updateUI() {
         for (var j = 0; j < board.getColumnCount(); j++) {
