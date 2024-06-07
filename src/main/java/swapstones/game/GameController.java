@@ -31,7 +31,7 @@ public class GameController {
     private Label stopwatchLabel;
 
     @FXML
-    private Button resetButton;
+    private Button GiveUp;
 
     private final Stopwatch stopwatch = new Stopwatch();
 
@@ -96,6 +96,7 @@ public class GameController {
     private void restartGame() {
         createState();
         numberOfMoves.set(0);
+        stopwatch.reset();
         clearAndPopulateGrid();
     }
 
@@ -125,12 +126,6 @@ public class GameController {
             Logger.debug("Exiting");
             Platform.exit();
         }
-    }
-
-    @FXML
-    private void handleResetButton(ActionEvent event) {
-        stopwatch.reset();
-        restartGame();
     }
 
     private void makeMoveIfLegal(int fromIndex, int toIndex) {
@@ -177,8 +172,14 @@ public class GameController {
         throw new AssertionError();
     }
 
+    @FXML
+    public void handleGiveUp(ActionEvent event) {
+        Platform.exit();
+    }
+
     private void showSolvedAlertAndExit() {
         var alert = new Alert(Alert.AlertType.INFORMATION);
+        stopwatch.stop();
         alert.setHeaderText("Puzzle is solved");
         alert.setContentText("Congratulations! You solved the puzzle");
         alert.showAndWait();

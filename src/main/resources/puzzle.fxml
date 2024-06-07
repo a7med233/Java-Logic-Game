@@ -48,7 +48,7 @@
         <children>
             <Label text="Number Of Moves:" />
             <TextField fx:id="numberOfMovesField" alignment="CENTER" editable="false" focusTraversable="false" prefColumnCount="2" text="1" />
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#handleResetButton" text="Reset" />
+            <Button fx:id="GiveUp" mnemonicParsing="false" onAction="#handleGiveUp" text="Give Up" />
         </children>
         <padding>
             <Insets top="10.0" />

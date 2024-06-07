@@ -1,5 +1,8 @@
 package swapstones.model;
 
+/**
+ * Represents the position of a stone on the board.
+ */
 public class Position {
     private int col;
     private Stone stone;
@@ -16,5 +19,13 @@ public class Position {
 
     public Stone getStone() {
         return stone;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "col=" + col +
+                ", stone=" + stone +
+                '}';
     }
 }

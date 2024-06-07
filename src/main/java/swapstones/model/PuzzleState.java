@@ -4,12 +4,22 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import puzzle.TwoPhaseMoveState;
 import java.util.*;
 
+/**
+ * Represents the state of the puzzle.
+ */
 public class PuzzleState implements TwoPhaseMoveState<Integer> {
+
+    /**
+     * The size of the board.
+     */
     public static final int BOARD_SIZE = 16;
 
     private ReadOnlyObjectWrapper<Stone>[] board = new ReadOnlyObjectWrapper[BOARD_SIZE];
 
-
+    /**
+     * Creates a {@code PuzzleState} object that corresponds to the original
+     * initial state of the puzzle.
+     */
     public PuzzleState() {
         this(new Position( 0, Stone.TAIL),
                 new Position( 1, Stone.HEAD),
@@ -19,6 +29,13 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
                 new Position( 5, Stone.HEAD));
     }
 
+    /**
+     * Creates a {@code PuzzleState} object initializing the positions of the
+     * pieces with the positions specified. The constructor expects an array of
+     * {@code Position} objects.
+     *
+     * @param positions the initial positions of the pieces
+     */
     public PuzzleState(Position... positions) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             board[i] = new ReadOnlyObjectWrapper<>(Stone.EMPTY);
@@ -44,6 +61,11 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
                 '}';
     }
 
+    /**
+     * {@return whether the Stones can be moved to the index specified}
+     *
+     * @param directionTwoPhaseMove an index to which the 2-Stones are intended to be moved from and to
+     */
     @Override
     public boolean isLegalMove(TwoPhaseMove<Integer> directionTwoPhaseMove) {
         int fromIndex = directionTwoPhaseMove.from();
@@ -51,6 +73,11 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
         return isLegalToMoveFrom(fromIndex) && isLegalToMoveTo(toIndex);
     }
 
+    /**
+     * {@return whether the Stones can be moved from the index specified}
+     *
+     * @param fromIndex an index to which the 2-Stones are intended to be moved from
+     */
     @Override
     public boolean isLegalToMoveFrom(Integer fromIndex) {
         return fromIndex >= 0 && fromIndex < BOARD_SIZE - 1
@@ -58,12 +85,20 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
                 && board[fromIndex + 1].get() != Stone.EMPTY;
     }
 
+    /**
+     * {@return whether the Stones can be moved to the index specified}
+     *
+     * @param toIndex an index to which the 2-Stones are intended to be moved to
+     */
     public boolean isLegalToMoveTo(Integer toIndex) {
         return toIndex >= 0 && toIndex < BOARD_SIZE - 1
                 && board[toIndex].get() == Stone.EMPTY
                 && board[toIndex + 1].get() == Stone.EMPTY;
     }
 
+    /**
+     * {@return whether the puzzle is solved}
+     */
     @Override
     public boolean isSolved() {
         for (int i = 0; i <= BOARD_SIZE - 6; i++) { // Ensure we have enough space for 6 stones
@@ -75,7 +110,12 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
         return false;
     }
 
-
+    /**
+     * Executes the specified move if it is legal.
+     *
+     * @param directionTwoPhaseMove a {@code TwoPhaseMove<Integer>} object representing the move to execute
+     * @throws IllegalArgumentException if the move is illegal
+     */
     @Override
     public void makeMove(TwoPhaseMove<Integer> directionTwoPhaseMove) {
         if (!isLegalMove(directionTwoPhaseMove)) {
@@ -91,7 +131,11 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
         board[directionTwoPhaseMove.to() + 1].set(source[1]);
     }
 
-
+    /**
+     * Returns a set of all legal moves from the current state.
+     *
+     * @return a set of all legal moves
+     */
     @Override
     public Set<TwoPhaseMove<Integer>> getLegalMoves() {
         Set<TwoPhaseMove<Integer>> legalMoves = new HashSet<>();
@@ -111,6 +155,12 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
         return legalMoves;
     }
 
+    /**
+     * Compares this {@code PuzzleState} to the specified object.
+     *
+     * @param o the object to compare with this {@code PuzzleState}
+     * @return whether this {@code PuzzleState} is equal to the specified object
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -133,6 +183,12 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
         return boardState;
     }
 
+    /**
+     * Returns the stone at the specified position on the board.
+     *
+     * @param col the position on the board
+     * @return the stone at the specified position
+     */
     public Stone getStone(int col) {
         return board[col].get();
     }

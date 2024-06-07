@@ -66,22 +66,17 @@ public class PuzzleStateTest {
 
     @Test
     public void testIsSolved() {
-        TwoPhaseMoveState.TwoPhaseMove<Integer> move = new TwoPhaseMoveState.TwoPhaseMove<>(1, 8);
-        TwoPhaseMoveState.TwoPhaseMove<Integer> move1 = new TwoPhaseMoveState.TwoPhaseMove<>(4, 10);
+        TwoPhaseMoveState.TwoPhaseMove<Integer> move = new TwoPhaseMoveState.TwoPhaseMove<>(3, 6);
+        TwoPhaseMoveState.TwoPhaseMove<Integer> move1 = new TwoPhaseMoveState.TwoPhaseMove<>(5, 3);
 
-        TwoPhaseMoveState.TwoPhaseMove<Integer> move2 = new TwoPhaseMoveState.TwoPhaseMove<>(10, 1);
-        TwoPhaseMoveState.TwoPhaseMove<Integer> move3 = new TwoPhaseMoveState.TwoPhaseMove<>(2, 10);
-        TwoPhaseMoveState.TwoPhaseMove<Integer> move4 = new TwoPhaseMoveState.TwoPhaseMove<>(9, 6);
-        TwoPhaseMoveState.TwoPhaseMove<Integer> move5 = new TwoPhaseMoveState.TwoPhaseMove<>(7, 9);
-        TwoPhaseMoveState.TwoPhaseMove<Integer> move6 = new TwoPhaseMoveState.TwoPhaseMove<>(0, 7);
+        TwoPhaseMoveState.TwoPhaseMove<Integer> move2 = new TwoPhaseMoveState.TwoPhaseMove<>(1, 5);
+        TwoPhaseMoveState.TwoPhaseMove<Integer> move3 = new TwoPhaseMoveState.TwoPhaseMove<>(6, 1);
+
         puzzleState.makeMove(move);
         puzzleState.makeMove(move1);
         puzzleState.makeMove(move2);
-        puzzleState.makeMove(move3);
-        puzzleState.makeMove(move4);
-        puzzleState.makeMove(move5);
         assertFalse(puzzleState.isSolved(), "Should not be solved.");
-        puzzleState.makeMove(move6);
+        puzzleState.makeMove(move3);
         assertTrue(puzzleState.isSolved(), "Puzzle should be solved.");
     }
 
