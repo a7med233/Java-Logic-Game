@@ -2,7 +2,10 @@ package swapstones.model;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import puzzle.TwoPhaseMoveState;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.HashSet;
+
 
 /**
  * Represents the state of the puzzle.
@@ -21,12 +24,12 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
      * initial state of the puzzle.
      */
     public PuzzleState() {
-        this(new Position( 0, Stone.TAIL),
-                new Position( 1, Stone.HEAD),
-                new Position( 2, Stone.TAIL),
-                new Position( 3, Stone.HEAD),
-                new Position( 4, Stone.TAIL),
-                new Position( 5, Stone.HEAD));
+        this(new Position(0, Stone.TAIL),
+                new Position(1, Stone.HEAD),
+                new Position(2, Stone.TAIL),
+                new Position(3, Stone.HEAD),
+                new Position(4, Stone.TAIL),
+                new Position(5, Stone.HEAD));
     }
 
     /**
@@ -47,18 +50,18 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
     }
 
     private void setStoneAtPosition(Position position) {
-        int index = position.getCol();
+        int index = position.col();
         if (index >= 0 && index < BOARD_SIZE) {
-            board[index] = new ReadOnlyObjectWrapper<>(position.getStone());
+            board[index] = new ReadOnlyObjectWrapper<>(position.stone());
         }
     }
 
-
     @Override
     public String toString() {
-        return "PuzzleState{" +
-                "board=" + Arrays.toString(board) +
-                '}';
+        return "PuzzleState{"
+                + "board="
+                + Arrays.toString(board)
+                + '}';
     }
 
     /**
@@ -163,8 +166,12 @@ public class PuzzleState implements TwoPhaseMoveState<Integer> {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
         PuzzleState that = (PuzzleState) o;
         return Arrays.equals(getBoard(), that.getBoard());
     }

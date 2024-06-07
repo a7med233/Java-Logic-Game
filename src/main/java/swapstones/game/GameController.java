@@ -6,9 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.*;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import puzzle.TwoPhaseMoveState;
-import swapstones.model.*;
+import swapstones.model.PuzzleState;
+import swapstones.model.Stone;
+import swapstones.model.Stopwatch;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -30,8 +36,7 @@ public class GameController {
     @FXML
     private Label stopwatchLabel;
 
-    @FXML
-    private Button GiveUp;
+    public Button GiveUp;
 
     private final Stopwatch stopwatch = new Stopwatch();
 

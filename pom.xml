@@ -6,7 +6,7 @@
     <artifactId>homework-template-project</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    <description><!-- TODO: a brief description of your project --></description>
+    <description>StoneAligner is a puzzle game where the player have to sort 6 stones in a board consisting of 16 boxes in a specific order</description>
     <developers>
         <developer>
             <name>Ahmed Emad Mohammed Abdelaziz Samra</name>

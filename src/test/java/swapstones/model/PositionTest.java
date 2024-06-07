@@ -12,8 +12,8 @@ class PositionTest {
 
     void assertPosition(int expectedCol, Stone expectedStone, Position position) {
         assertAll("position",
-                () -> assertEquals(expectedCol, position.getCol()),
-                () -> assertEquals(expectedStone, position.getStone())
+                () -> assertEquals(expectedCol, position.col()),
+                () -> assertEquals(expectedStone, position.stone())
         );
     }
 
@@ -36,13 +36,13 @@ class PositionTest {
     @Test
     void testSetCol() {
         Position newPosition = new Position(1, Stone.HEAD);
-        assertEquals(1, newPosition.getCol());
+        assertEquals(1, newPosition.col());
     }
 
     @Test
     void testSetStone() {
         Position newPosition = new Position(1, Stone.TAIL);
-        assertEquals(Stone.TAIL, newPosition.getStone());
+        assertEquals(Stone.TAIL, newPosition.stone());
     }
 
     @Test
