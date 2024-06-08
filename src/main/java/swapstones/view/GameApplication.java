@@ -1,4 +1,4 @@
-package swapstones.game;
+package swapstones.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,7 @@ public class GameApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/userview.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/userview.fxml")));
         stage.setTitle("Stone Alignment");
         Scene scene = new Scene(root);
         stage.setScene(scene);

@@ -1,8 +1,9 @@
-package swapstones.game;
+package swapstones.controller;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
+import gameresult.OnePlayerGameResult;
+import gameresult.manager.OnePlayerGameResultManager;
+import gameresult.manager.json.JsonOnePlayerGameResultManager;
+import javafx.beans.property.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,10 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import lombok.Setter;
 import puzzle.TwoPhaseMoveState;
 import swapstones.model.PuzzleState;
 import swapstones.model.Stone;
-import swapstones.model.Stopwatch;
+import swapstones.util.Stopwatch;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -31,6 +33,9 @@ import org.tinylog.Logger;
 
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 
 public class GameController {
 
@@ -48,12 +53,27 @@ public class GameController {
     private final Stopwatch stopwatch = new Stopwatch();
 
     private PuzzleState model = new PuzzleState();
+    private UserViewController userView = new UserViewController();
 
     private final IntegerProperty numberOfMoves = new SimpleIntegerProperty(0);
 
     private int fromChosen = -1;
 
     private int toChosen = -1;
+    @Setter
+    private String playerName;
+    @Setter
+    private boolean solved;
+    @Setter
+    private Duration duration;
+    @Setter
+    private ZonedDateTime created;
+
+    private OnePlayerGameResultManager gameResultManager;
+
+    public GameController() {
+        this.gameResultManager = new JsonOnePlayerGameResultManager(Path.of("one-player-results.json"));
+    }
 
     private void bindNumberOfMoves() {
         numberOfMovesField.textProperty().bind(numberOfMoves.asString());
@@ -69,6 +89,7 @@ public class GameController {
         bindNumberOfMoves();
         stopwatchLabel.textProperty().bind(stopwatch.hhmmssProperty());
         stopwatch.start();
+        created = ZonedDateTime.now();
     }
 
     private StackPane createSquare(int col) {
@@ -105,36 +126,11 @@ public class GameController {
     private void registerKeyEventHandler() {
         Platform.runLater(() -> board.getScene().setOnKeyPressed(this::handleKeyPress));
     }
-    private void restartGame() {
-        createState();
-        numberOfMoves.set(0);
-        stopwatch.reset();
-        clearAndPopulateGrid();
-    }
-
-    private void clearAndPopulateGrid() {
-        board.getChildren().clear();
-        for (var row = 0; row < board.getRowCount(); row++) {
-            for (var col = 0; col < board.getColumnCount(); col++) {
-                var square = createSquare(col);
-                board.add(square, col, row);
-            }
-        }
-    }
-
-    private void createState() {
-        model = new PuzzleState();
-        initialize();
-    }
 
     @FXML
     private void handleKeyPress(KeyEvent keyEvent) {
-        var restartKeyCombination = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
         var quitKeyCombination = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
-        if (restartKeyCombination.match(keyEvent)) {
-            Logger.debug("Restarting game");
-            restartGame();
-        } else if (quitKeyCombination.match(keyEvent)) {
+        if (quitKeyCombination.match(keyEvent)) {
             Logger.debug("Exiting");
             Platform.exit();
         }
@@ -148,6 +144,8 @@ public class GameController {
             numberOfMoves.set(numberOfMoves.get() + 1);
 
             if (model.isSolved()) {
+                solved = model.isSolved();
+                setGameResultManager();
                 showSolvedAlertAndExit();
             }
         } else {
@@ -184,12 +182,37 @@ public class GameController {
         throw new AssertionError();
     }
 
-    @FXML
-    public void handleGiveUp() throws IOException {
+
+    public void handleSwitchScene() throws IOException {
         Stage stage = (Stage) board.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/tableview.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/tableview.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+
+    private void setGameResultManager(){
+        duration = Duration.ofSeconds(stopwatch.secondsProperty().get());
+        OnePlayerGameResult gameResult = new OnePlayerGameResult(playerName, solved, numberOfMoves.intValue());
+        gameResult.setDuration(duration);
+        gameResult.setCreated(created);
+        try {
+            gameResultManager.add(gameResult);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    private void handleGiveUp(){
+        solved = model.isSolved();
+        setGameResultManager();
+        try {
+            handleSwitchScene();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void showSolvedAlertAndExit() {
@@ -199,7 +222,7 @@ public class GameController {
         alert.setContentText("Congratulations! You solved the puzzle");
         alert.showAndWait();
         try {
-            handleGiveUp();
+            handleSwitchScene();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

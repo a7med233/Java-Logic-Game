@@ -1,4 +1,4 @@
-package swapstones.game;
+package swapstones.controller;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -21,7 +21,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.stage.Stage;
-import swapstones.game.GameController;
 
 import util.DurationUtil;
 
@@ -66,7 +65,7 @@ public class TableViewController {
     }
 
     public void handlePlayAgain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/puzzle.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/userview.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

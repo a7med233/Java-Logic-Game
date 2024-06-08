@@ -1,4 +1,4 @@
 /**
- * JavaFX-based game to play the Stone Alignment puzzle.
+ * Representing the Main method to run the game.
  */
 package swapstones.game;

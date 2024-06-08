@@ -3,14 +3,14 @@
 
 
 Consider 16 small boxes arranged in a line, 3 red stones, and 3 black stones. Initially, the stones are placed in the boxes as follows:
-![img.png](src/main/java/swapstones/utils/img.png)
+![img.png](src/main/java/swapstones/util/img.png)
 
 
 In a move, two adjacent stones must be taken out of the boxes with the condition that one stone can not be moved alone, then they must be put into two adjacent empty boxes preserving their order.
 When you press on one stone the next one to it will be automatically selected as when we select 1, it will be 1 and 2, and the same for the boxes.
 
 The goal of the game is to arrange the stones in the following order:
-![img_1.png](src/main/java/swapstones/utils/img_1.png)
+![img_1.png](src/main/java/swapstones/util/img_1.png)
 
 # Solution:
 ### **Consider that these are the indexes of the Boxes, where [from:0] means move from the first box**

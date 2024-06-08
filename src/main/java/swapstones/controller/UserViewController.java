@@ -1,4 +1,4 @@
-package swapstones.game;
+package swapstones.controller;
 
 import java.io.IOException;
 
@@ -25,11 +25,13 @@ public class UserViewController {
 
     @FXML
     private void handleNextButton(ActionEvent event) throws IOException {
-        Logger.info("Name entered: {}", nameField.getText());
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/puzzle.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/puzzle.fxml"));
         Parent root = fxmlLoader.load();
+        GameController gameController = fxmlLoader.getController();
+        gameController.setPlayerName(nameField.getText());
+        Logger.info("Name entered: {}", nameField.getText());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setUserData(nameField.getText()); // Storing the entered text in the current stage via setUserData()
+        stage.setUserData(nameField.getText());
         stage.setScene(new Scene(root));
         stage.show();
     }
