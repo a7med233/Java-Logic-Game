@@ -13,7 +13,7 @@ public class GameApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/puzzle.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/userview.fxml")));
         stage.setTitle("Stone Alignment");
         Scene scene = new Scene(root);
         stage.setScene(scene);

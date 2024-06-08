@@ -3,6 +3,9 @@ package swapstones.game;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
 import puzzle.TwoPhaseMoveState;
 import swapstones.model.PuzzleState;
 import swapstones.model.Stone;
@@ -24,6 +28,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.tinylog.Logger;
+
+
+import java.io.IOException;
 
 public class GameController {
 
@@ -178,8 +185,11 @@ public class GameController {
     }
 
     @FXML
-    public void handleGiveUp(ActionEvent event) {
-        Platform.exit();
+    public void handleGiveUp(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/tableview.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     private void showSolvedAlertAndExit() {
@@ -190,4 +200,5 @@ public class GameController {
         alert.showAndWait();
         Platform.exit();
     }
+
 }

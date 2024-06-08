@@ -24,9 +24,16 @@
         <jacoco.version>0.8.12</jacoco.version>
         <maven.checkstyle.version>3.3.1</maven.checkstyle.version>
         <maven.surefire.version>3.2.5</maven.surefire.version>
+        <jackson.version>2.17.1</jackson.version>
         <exec.mainClass>swapstones.game.Main</exec.mainClass>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>hu.unideb.inf</groupId>
+            <artifactId>game-result-manager</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.tinylog</groupId>
             <artifactId>tinylog-api</artifactId>
@@ -73,6 +80,18 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.14.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -183,9 +202,30 @@
                     </reportSet>
                 </reportSets>
             </plugin>
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>${exec.mainClass}</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </reporting>
     <repositories>
+        <repository>
+            <id>githubb</id>
+            <url>https://maven.pkg.github.com/INBPM0420L/game-result-manager</url>
+        </repository>
         <repository>
             <id>github</id>
             <url>https://maven.pkg.github.com/INBPM0420L/homework-project-utils</url>
