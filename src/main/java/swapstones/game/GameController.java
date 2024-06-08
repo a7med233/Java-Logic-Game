@@ -185,8 +185,8 @@ public class GameController {
     }
 
     @FXML
-    public void handleGiveUp(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    public void handleGiveUp() throws IOException {
+        Stage stage = (Stage) board.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/tableview.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
@@ -198,7 +198,11 @@ public class GameController {
         alert.setHeaderText("Puzzle is solved");
         alert.setContentText("Congratulations! You solved the puzzle");
         alert.showAndWait();
-        Platform.exit();
+        try {
+            handleGiveUp();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
